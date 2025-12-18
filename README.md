@@ -2,7 +2,7 @@
 
 A vibrant, modern, and addictive clicker RPG built with **Vite** and **Vanilla JavaScript**. Fight through 10 challenging emoji bosses, manage your energy, and upgrade your skills to become the ultimate emoji warrior!
 
-![Preview](statics/preview.png)
+![Preview](assets/preview.png)
 
 ## 🚀 Features
 
