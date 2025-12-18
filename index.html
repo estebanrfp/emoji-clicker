@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A vibrant clicker RPG. Defeat 10 emoji bosses, manage energy, and upgrade your skills!">
     <title>Emoji Clicker RPG</title>
-    <!-- Fonts -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div id="app">
@@ -18,12 +19,10 @@
       </header>
 
       <div class="game-container">
-        <!-- Stats Panel (Left) -->
+        <!-- Stats Panel -->
         <div class="card stats-panel">
           <div class="stat-item">
-            <div class="stat-header">
-              <span>❤️ HEALTH</span>
-            </div>
+            <div class="stat-header"><span>❤️ HEALTH</span></div>
             <div class="stat-value" id="health-val">100</div>
             <div class="progress-bar">
               <div class="progress-fill" id="health-bar" style="width: 100%; background-color: var(--health-color);"></div>
@@ -31,9 +30,7 @@
           </div>
 
           <div class="stat-item">
-            <div class="stat-header">
-              <span>⚡ ENERGY</span>
-            </div>
+            <div class="stat-header"><span>⚡ ENERGY</span></div>
             <div class="stat-value" id="energy-val">100</div>
             <div class="progress-bar">
               <div class="progress-fill" id="energy-bar" style="width: 100%; background-color: var(--energy-color);"></div>
@@ -41,21 +38,17 @@
           </div>
 
           <div class="stat-item">
-            <div class="stat-header">
-              <span>💪 STRENGTH</span>
-            </div>
+            <div class="stat-header"><span>💪 STRENGTH</span></div>
             <div class="stat-value" id="strength-val">10</div>
           </div>
 
           <div class="stat-item">
-            <div class="stat-header">
-              <span>🔄 RECOVERY</span>
-            </div>
+            <div class="stat-header"><span>🔄 RECOVERY</span></div>
             <div class="stat-value"><span id="recovery-val">1</span>/s</div>
           </div>
         </div>
 
-        <!-- Boss Arena (Right) -->
+        <!-- Boss Arena -->
         <div class="card arena-panel">
           <div class="level-indicator">LEVEL <span id="level-val">1</span> / 10</div>
           
@@ -71,18 +64,17 @@
         </div>
       </div>
 
-      <!-- Footer / Upgrades -->
+      <!-- Upgrades -->
       <div class="footer-panel">
         <div class="currency-display">
           Available Points: <span class="currency-value" id="currency-val">0</span>
         </div>
-        
-        <div class="upgrades-grid" id="upgrades-grid">
-          <!-- Upgrades injected by JS -->
-        </div>
+        <div class="upgrades-grid" id="upgrades-grid"></div>
       </div>
     </div>
     
-    <script type="module" src="/src/main.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

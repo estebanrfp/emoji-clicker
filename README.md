@@ -20,27 +20,21 @@ A vibrant, modern, and addictive clicker RPG built with **Vite** and **Vanilla J
 
 - **Core**: HTML5, Vanilla JavaScript (ES2022+)
 - **Styling**: Modern CSS3 (Custom properties, Flexbox/Grid, Animations)
-- **Tooling**: Vite, pnpm
-- **Runtime**: Bun / Node.js
+- **No build tools required** - Just open `index.html` in your browser!
 
-## 📥 Installation & Setup
+## 📥 Getting Started
 
-Ensure you have [pnpm](https://pnpm.io/) and [Bun](https://bun.sh/) (or Node.js) installed.
+Simply open `index.html` in any modern browser, or run a local server:
 
-1. **Install Dependencies**:
-   ```bash
-   pnpm install
-   ```
+```bash
+# Option 1: Python
+python -m http.server 8000
 
-2. **Run Development Server**:
-   ```bash
-   pnpm run dev
-   ```
+# Option 2: Node.js
+npx serve .
+```
 
-3. **Build for Production**:
-   ```bash
-   pnpm run build
-   ```
+Then visit `http://localhost:8000`
 
 ## 🎮 How to Play
 

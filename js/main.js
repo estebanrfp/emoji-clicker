@@ -1,11 +1,5 @@
-import './style.css';
-import { GameState } from './gameState.js';
-import { UPGRADES } from './constants.js';
-
-// Init Game
 const game = new GameState();
 
-// DOM Elements
 const ui = {
   healthVal: document.getElementById('health-val'),
   healthBar: document.getElementById('health-bar'),
@@ -14,7 +8,6 @@ const ui = {
   strengthVal: document.getElementById('strength-val'),
   recoveryVal: document.getElementById('recovery-val'),
   levelVal: document.getElementById('level-val'),
-  bossContainer: document.getElementById('boss-container'),
   bossEmoji: document.getElementById('boss-emoji'),
   bossHpBar: document.getElementById('boss-hp-bar'),
   bossHpText: document.getElementById('boss-hp-text'),
@@ -22,15 +15,12 @@ const ui = {
   upgradesGrid: document.getElementById('upgrades-grid'),
 };
 
-// Render Upgrades
-function renderUpgrades() {
+const renderUpgrades = () => {
   ui.upgradesGrid.innerHTML = '';
   UPGRADES.forEach(upgrade => {
     const btn = document.createElement('button');
     btn.className = 'upgrade-btn';
     btn.id = `btn-${upgrade.id}`;
-    
-    // Initial cost render
     const cost = game.getUpgradeCost(upgrade.id);
     
     btn.innerHTML = `
@@ -45,57 +35,48 @@ function renderUpgrades() {
     btn.onclick = () => {
       if (game.buyUpgrade(upgrade.id)) {
         createFloatingText(btn, "UPGRADED!", "#7bed9f");
-        updateUI(); // Immediate update
-        renderUpgrades(); // Re-render to update costs
+        updateUI();
+        renderUpgrades();
       } else {
-         btn.animate([
-           { transform: 'translateX(0)' },
-           { transform: 'translateX(-5px)' },
-           { transform: 'translateX(5px)' },
-           { transform: 'translateX(0)' }
-         ], { duration: 200 });
+        btn.animate([
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-5px)' },
+          { transform: 'translateX(5px)' },
+          { transform: 'translateX(0)' }
+        ], { duration: 200 });
       }
     };
     
     ui.upgradesGrid.appendChild(btn);
   });
-}
+};
 
-// Floating Text Logic
-function createFloatingText(target, text, color = '#fff') {
+const createFloatingText = (target, text, color = '#fff') => {
   const rect = target.getBoundingClientRect();
   const el = document.createElement('div');
   el.className = 'damage-number';
   el.textContent = text;
   el.style.color = color;
-  
-  // Random offset for visual variety
-  const randomX = (Math.random() - 0.5) * 40;
-  
-  el.style.left = `${rect.left + rect.width / 2 + randomX}px`;
+  el.style.left = `${rect.left + rect.width / 2 + (Math.random() - 0.5) * 40}px`;
   el.style.top = `${rect.top}px`;
-  
   document.body.appendChild(el);
-  
-  // Cleanup
   el.addEventListener('animationend', () => el.remove());
-}
+};
 
-// Boss Click Handler
-ui.bossEmoji.addEventListener('mousedown', (e) => {
+ui.bossEmoji.addEventListener('mousedown', () => {
   const result = game.clickBoss();
   
   if (result.damage > 0) {
     createFloatingText(ui.bossEmoji, `-${result.damage}`, '#ff4757');
     ui.bossEmoji.classList.remove('hit');
-    void ui.bossEmoji.offsetWidth; // Trigger reflow
+    void ui.bossEmoji.offsetWidth;
     ui.bossEmoji.classList.add('hit');
     
     if (result.killed) {
       ui.bossEmoji.classList.add('dead');
       setTimeout(() => {
         ui.bossEmoji.classList.remove('dead');
-        updateUI(); // Refresh emoji for new level
+        updateUI();
       }, 500);
     }
   } else if (result.reason === 'no_energy') {
@@ -103,24 +84,18 @@ ui.bossEmoji.addEventListener('mousedown', (e) => {
   }
 });
 
-// Main Loop
 let lastTime = 0;
-function loop(timestamp) {
+const loop = (timestamp) => {
   if (!lastTime) lastTime = timestamp;
   const deltaTime = timestamp - lastTime;
   lastTime = timestamp;
 
-  // Logic Tick
   game.tick(deltaTime);
-
-  // Render Tick
   updateUI();
-
   requestAnimationFrame(loop);
-}
+};
 
-function updateUI() {
-  // Stats
+const updateUI = () => {
   ui.healthVal.textContent = Math.floor(game.player.health);
   ui.healthBar.style.width = `${(game.player.health / game.player.maxHealth) * 100}%`;
   
@@ -131,23 +106,16 @@ function updateUI() {
   ui.recoveryVal.textContent = game.player.recovery;
   ui.currencyVal.textContent = game.player.currency;
 
-  // Boss
   ui.levelVal.textContent = game.boss.level;
   ui.bossEmoji.textContent = game.boss.emoji;
   ui.bossHpText.textContent = game.boss.currentHp;
   ui.bossHpBar.style.width = `${(game.boss.currentHp / game.boss.maxHp) * 100}%`;
 
-  // Upgrades Enable/Disable State
   UPGRADES.forEach(u => {
     const btn = document.getElementById(`btn-${u.id}`);
-    if (btn) {
-      const cost = game.getUpgradeCost(u.id);
-      btn.disabled = game.player.currency < cost;
-      // Update cost text dynamically if needed, but we re-render on buy so it's fine
-    }
+    if (btn) btn.disabled = game.player.currency < game.getUpgradeCost(u.id);
   });
-}
+};
 
-// Start
 renderUpgrades();
 requestAnimationFrame(loop);
